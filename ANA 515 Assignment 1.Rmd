@@ -1,0 +1,54 @@
+---
+title: "ANA 515 Assignment 1"
+author: "Shreyesh Shetty"
+date: "2022-08-31"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+theme:
+  bootswatch: minty
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages('tidyverse', repos = "http://cran.us.r-project.org")
+library(tidyverse)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, include = FALSE}
+#importing data from github and reading the csv file
+guns_death<-"https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+gun_death<- read_csv(guns_death)
+#this next line is creating a subset called 'youth' of the guns_death data
+youth <-subset(gun_death,age<=65)
+summary(youth)
+```
+## Including Plots
+
+You can also embed plots, for example:
+#Gun deaths by age
+```{r youth-dist, echo=FALSE}
+ 
+youth %>%
+  ggplot(aes(age))+
+  geom_freqpoly(binwidth=1)
+
+
+```
+#Gun deaths by race
+```{r race-dist, echo=FALSE}
+
+youth %>%
+  ggplot(aes(fct_infreq(race)%>%fct_rev()))+
+  geom_bar()+coord_flip()+labs(x="Victim race")
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
